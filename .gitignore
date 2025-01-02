@@ -1,0 +1,24 @@
+# Ignore les fichiers de logs
+*.log
+
+# Ignore les fichiers compilés Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Ignore l'environnement virtuel
+env_projet_8/
+
+# Ignore les fichiers de Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore les fichiers de configuration spécifiques à l'IDE
+.vscode/
+.idea/
+
+# Ignore les fichiers générés par les modèles ou les données temporaires
+data/
+
+# Ignore les fichiers de test
+test.ipynb
+api.py
