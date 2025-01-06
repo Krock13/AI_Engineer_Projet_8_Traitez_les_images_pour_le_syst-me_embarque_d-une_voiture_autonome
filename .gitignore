@@ -19,6 +19,9 @@ env_projet_8/
 # Ignore les fichiers générés par les modèles ou les données temporaires
 data/
 
+# Ignore les modèles
+models/
+
 # Ignore les fichiers de test
 test.ipynb
 api.py
