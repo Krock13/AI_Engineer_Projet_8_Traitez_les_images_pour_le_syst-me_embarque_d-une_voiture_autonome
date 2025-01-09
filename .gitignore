@@ -24,3 +24,4 @@ models/
 
 # Ignore les fichiers de test
 test.ipynb
+.pytest_cache/

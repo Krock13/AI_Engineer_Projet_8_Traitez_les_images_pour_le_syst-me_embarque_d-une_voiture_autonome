@@ -1,0 +1,38 @@
+# Ignorer les fichiers et dossiers inutiles
+
+# Notebooks Jupyter
+*.ipynb
+
+# Dossier contenant les caches de pytest
+.pytest_cache/
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Modèles inutilisés
+models/
+
+# Données inutilisées dans data
+data/
+
+# Logs MLflow et autres fichiers inutiles
+*.log
+*.pdf
+*.md
+
+# Environnement virtuel local
+env_projet_8/
+
+# Fichiers ou binaires liés à Git
+.git/
+.gitattributes
+.gitignore
+
+# Dossier contenant les workflows GitHub Actions
+.github/
+
+# Dossier de tests
+tests/

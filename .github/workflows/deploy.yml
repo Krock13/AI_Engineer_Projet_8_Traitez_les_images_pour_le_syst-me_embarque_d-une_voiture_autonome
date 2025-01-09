@@ -1,0 +1,48 @@
+name: Build and Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Récupérer le code
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      # Étape 2 : Connexion à Azure
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Étape 3 : Connexion au registre ACR
+      - name: Login to ACR
+        run: |
+          az acr login --name ${{ secrets.ACR_NAME }}
+
+      # Étape 4 : Construire l'image Docker
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/autonomous-car-api:latest -f api.dockerfile .
+
+      # Étape 5 : Pousser l'image dans ACR
+      - name: Push Docker Image
+        run: |
+          docker push ${{ secrets.ACR_NAME }}.azurecr.io/autonomous-car-api:latest
+
+      # Étape 6 : Configurer l'App Service pour utiliser l'image Docker
+      - name: Deploy Image to Web App
+        run: |
+          az webapp config container set \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --docker-custom-image-name ${{ secrets.ACR_NAME }}.azurecr.io/autonomous-car-api:latest \
+            --docker-registry-server-url https://${{ secrets.ACR_NAME }}.azurecr.io \
+            --docker-registry-server-user ${{ secrets.ACR_NAME }} \
+            --docker-registry-server-password ${{ secrets.ACR_PASSWORD }}
