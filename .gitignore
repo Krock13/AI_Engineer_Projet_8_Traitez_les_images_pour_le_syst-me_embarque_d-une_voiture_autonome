@@ -21,7 +21,6 @@ data/
 
 # Ignore les modèles
 models/
-deployment_model/
 
 # Ignore les fichiers de test
 test.ipynb

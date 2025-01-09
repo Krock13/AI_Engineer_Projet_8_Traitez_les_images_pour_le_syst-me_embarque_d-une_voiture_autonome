@@ -13,6 +13,8 @@ jobs:
       # 1. Vérifier le code source
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          lfs: true
 
       # 2. Configurer Python
       - name: Set up Python
