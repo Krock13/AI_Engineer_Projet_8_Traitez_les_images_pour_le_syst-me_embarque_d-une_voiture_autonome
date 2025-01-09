@@ -29,7 +29,7 @@ logger.addHandler(console_handler)
 app = FastAPI(title="Image Segmentation API", version="1.0")
 
 # Charger le modèle de segmentation
-model_path = "models/unet_vgg16/with_aug/best_model.keras"
+model_path = "deployment_model/best_model.keras"
 
 if not os.path.exists(model_path):
     logger.error("Le modèle n'a pas été trouvé. Vérifiez le chemin spécifié.")
@@ -88,6 +88,11 @@ def predict(image: UploadFile = File(...)):
 
         # Retourner l'image comme réponse
         return FileResponse(output_path, media_type="image/png", filename="mask_output_colored.png")
+
+    except HTTPException as http_exc:
+        # Si une exception HTTP a déjà été levée, renvoie-la directement
+        logger.error(f"Erreur HTTP intentionnelle : {http_exc.detail}")
+        raise http_exc
 
     except Exception as e:
         logger.error(f"Erreur interne lors de la prédiction : {e}")
