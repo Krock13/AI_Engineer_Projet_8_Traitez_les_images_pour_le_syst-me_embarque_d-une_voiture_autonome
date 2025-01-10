@@ -41,6 +41,7 @@ jobs:
       - name: Deploy Image to Web App
         run: |
           az webapp config container set \
+            --name ${{ secrets.APP_SERVICE_NAME }} \
             --resource-group ${{ secrets.RESOURCE_GROUP }} \
             --docker-custom-image-name ${{ secrets.ACR_NAME }}.azurecr.io/autonomous-car-api:latest \
             --docker-registry-server-url https://${{ secrets.ACR_NAME }}.azurecr.io \
