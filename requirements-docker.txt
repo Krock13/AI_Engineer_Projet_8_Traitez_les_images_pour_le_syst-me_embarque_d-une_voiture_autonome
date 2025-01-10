@@ -9,3 +9,4 @@ pillow==11.0.0
 pytest==8.3.4
 python-multipart==0.0.20
 tensorflow==2.18.0
+uvicorn==0.34.0
