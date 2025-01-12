@@ -37,5 +37,5 @@ env_projet_8/
 # Dossier de tests
 tests/
 
-# Dossier de l'API
-api/
+# Dossier de l'application
+web/
