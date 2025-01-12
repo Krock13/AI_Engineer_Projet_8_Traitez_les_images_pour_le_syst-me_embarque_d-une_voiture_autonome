@@ -5,11 +5,10 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copier uniquement ce qui est nécessaire
-COPY .dockerignore /app/.dockerignore
 COPY api/main.py /app/api/
 COPY api/custom_metrics.py /app/api/
 COPY api/requirements.txt /app/api/
-COPY api/deployment_model/best_model.keras /app/api/deployment_model/
+COPY api/deployment_model/ /app/api/deployment_model/
 
 # Installer uniquement les dépendances nécessaires
 RUN pip install --no-cache-dir -r /app/api/requirements.txt
