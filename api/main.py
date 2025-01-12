@@ -1,20 +1,17 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import FileResponse
+# Imports de la bibliothèque standard
 import os
 import logging
-from azure.monitor.opentelemetry import configure_azure_monitor
-from opentelemetry import trace
+
+# Imports des bibliothèques tierces
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.responses import FileResponse
 from PIL import Image
 import numpy as np
 from tensorflow.keras.models import load_model
-from custom_metrics import dice_bce_loss, dice_metric, iou_metric
 import matplotlib.pyplot as plt
 
-# Configurer Azure Monitor pour OpenTelemetry
-# configure_azure_monitor()
-
-# Obtenir un tracer pour générer des spans
-tracer = trace.get_tracer(__name__)
+# Imports des modules locaux
+from api.custom_metrics import dice_bce_loss, dice_metric, iou_metric
 
 # Configurer le logger
 logger = logging.getLogger("image_segmentation_app")
@@ -29,7 +26,7 @@ logger.addHandler(console_handler)
 app = FastAPI(title="Image Segmentation API", version="1.0")
 
 # Charger le modèle de segmentation
-model_path = "deployment_model/best_model.keras"
+model_path = "api/deployment_model/best_model.keras"
 
 if not os.path.exists(model_path):
     logger.error("Le modèle n'a pas été trouvé. Vérifiez le chemin spécifié.")

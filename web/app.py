@@ -1,12 +1,15 @@
+# Imports de la bibliothèque standard
+import os
+from io import BytesIO
+
+# Imports des bibliothèques tierces
 import streamlit as st
 import requests
 from PIL import Image
-from io import BytesIO
-import os
 
 # Configuration des chemins
-IMAGE_DIR = "assets/images/"
-MASK_DIR = "assets/masks/"
+IMAGE_DIR = "web/assets/images/"
+MASK_DIR = "web/assets/masks/"
 API_URL = "https://autonomouscarapp-gpeqc3c6e4ajdeca.francecentral-01.azurewebsites.net/predict"
 
 # Récupérer la liste des images disponibles
