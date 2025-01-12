@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from main import app  # Importer l'application FastAPI
+from api.main import app  # Importer l'application FastAPI
 from io import BytesIO
 
 # Créer un client de test

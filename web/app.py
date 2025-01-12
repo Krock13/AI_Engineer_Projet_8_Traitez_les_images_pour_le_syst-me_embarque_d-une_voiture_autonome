@@ -8,8 +8,8 @@ import requests
 from PIL import Image
 
 # Configuration des chemins
-IMAGE_DIR = "assets/images/"
-MASK_DIR = "assets/masks/"
+IMAGE_DIR = "web/assets/images/"
+MASK_DIR = "web/assets/masks/"
 API_URL = "https://autonomouscarapp-gpeqc3c6e4ajdeca.francecentral-01.azurewebsites.net/predict"
 
 # Récupérer la liste des images disponibles

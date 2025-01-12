@@ -11,7 +11,7 @@ from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 
 # Imports des modules locaux
-from custom_metrics import dice_bce_loss, dice_metric, iou_metric
+from api.custom_metrics import dice_bce_loss, dice_metric, iou_metric
 
 # Configurer le logger
 logger = logging.getLogger("image_segmentation_app")
@@ -26,7 +26,7 @@ logger.addHandler(console_handler)
 app = FastAPI(title="Image Segmentation API", version="1.0")
 
 # Charger le modèle de segmentation
-model_path = "deployment_model/best_model.keras"
+model_path = "api/deployment_model/best_model.keras"
 
 if not os.path.exists(model_path):
     logger.error("Le modèle n'a pas été trouvé. Vérifiez le chemin spécifié.")
