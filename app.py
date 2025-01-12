@@ -1,8 +1,11 @@
+# Imports de la bibliothèque standard
+import os
+from io import BytesIO
+
+# Imports des bibliothèques tierces
 import streamlit as st
 import requests
 from PIL import Image
-from io import BytesIO
-import os
 
 # Configuration des chemins
 IMAGE_DIR = "assets/images/"
