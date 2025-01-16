@@ -1,6 +1,7 @@
 # Imports de la bibliothèque standard
 import os
 import logging
+import requests
 
 # Imports des bibliothèques tierces
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -23,14 +24,31 @@ console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
 # Initialiser l'application FastAPI
-app = FastAPI(title="Image Segmentation API", version="1.0")
+app = FastAPI(title="Image Segmentation API", version="1.1")
 
-# Charger le modèle de segmentation
+# Chemin du modèle local et URL du modèle sur GitHub
 model_path = "api/deployment_model/best_model.keras"
+model_url = "https://github.com/Krock13/AI_Engineer_Projet_8_Traitez_les_images_pour_le_syst-me_embarque_d-une_voiture_autonome/blob/main/api/deployment_model/best_model.keras?raw=true"
 
+def download_model(url, destination):
+    """Télécharge le modèle depuis une URL."""
+    try:
+        logger.info(f"Téléchargement du modèle depuis {url}...")
+        response = requests.get(url, stream=True)
+        response.raise_for_status()  # Lève une erreur en cas de problème HTTP
+        with open(destination, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        logger.info("Modèle téléchargé avec succès.")
+    except Exception as e:
+        logger.error(f"Erreur lors du téléchargement du modèle : {e}")
+        raise FileNotFoundError("Impossible de télécharger le modèle.")
+
+# Vérifier si le modèle existe localement, sinon le télécharger
 if not os.path.exists(model_path):
-    logger.error("Le modèle n'a pas été trouvé. Vérifiez le chemin spécifié.")
-    raise FileNotFoundError("Le modèle n'a pas été trouvé. Vérifiez le chemin spécifié.")
+    logger.warning("Le modèle n'a pas été trouvé localement. Téléchargement en cours...")
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+    download_model(model_url, model_path)
 
 model = load_model(model_path, custom_objects={
     'dice_bce_loss': dice_bce_loss,
@@ -38,8 +56,18 @@ model = load_model(model_path, custom_objects={
     'iou_metric': iou_metric
 })
 
-logger.info("Chargement du modèle de segmentation...")
-logger.info("Modèle de segmentation chargé avec succès.")
+# Charger le modèle de segmentation
+try:
+    logger.info("Chargement du modèle de segmentation...")
+    model = load_model(model_path, custom_objects={
+        'dice_bce_loss': dice_bce_loss,
+        'dice_metric': dice_metric,
+        'iou_metric': iou_metric
+    })
+    logger.info("Modèle de segmentation chargé avec succès.")
+except Exception as e:
+    logger.error(f"Erreur lors du chargement du modèle : {e}")
+    raise RuntimeError("Impossible de charger le modèle.")
 
 def preprocess_image(image: UploadFile):
     """Prétraitement de l'image pour le modèle."""
